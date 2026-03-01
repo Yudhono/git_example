@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initCounterAnimation();
   initSmoothScroll();
   initContactForm();
+  initThemeSelector();
 });
 
 /* ============================================
@@ -263,5 +264,69 @@ function initContactForm() {
         btn.style.background = "";
       }, 3000);
     }, 1500);
+  });
+}
+
+/* ============================================
+   Theme Selector
+   ============================================ */
+function initThemeSelector() {
+  var themeSelector = document.getElementById("themeSelector");
+  if (!themeSelector) return;
+
+  // Get saved theme or default to 'light'
+  var savedTheme = localStorage.getItem("theme") || "light";
+
+  // Apply the saved theme
+  applyTheme(savedTheme);
+
+  // Add click event listeners to theme buttons
+  var themeButtons = themeSelector.querySelectorAll(".theme-btn");
+  themeButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var theme = this.getAttribute("data-theme");
+      applyTheme(theme);
+      localStorage.setItem("theme", theme);
+    });
+  });
+
+  // Listen for system theme changes when in system mode
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
+    "change",
+    function (e) {
+      var currentTheme = localStorage.getItem("theme");
+      if (currentTheme === "system") {
+        applyTheme("system");
+      }
+    }
+  );
+}
+
+function applyTheme(theme) {
+  var themeSelector = document.getElementById("themeSelector");
+  if (!themeSelector) return;
+
+  // Remove all theme attributes
+  document.documentElement.removeAttribute("data-theme");
+
+  // Apply the selected theme
+  if (theme === "system") {
+    // Let CSS media queries handle system theme
+    document.documentElement.setAttribute("data-theme", "system");
+  } else if (theme === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    // Light mode (default, no attribute needed)
+  }
+
+  // Update active state of theme buttons
+  var themeButtons = themeSelector.querySelectorAll(".theme-btn");
+  themeButtons.forEach(function (btn) {
+    var btnTheme = btn.getAttribute("data-theme");
+    if (btnTheme === theme) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
   });
 }

@@ -49,6 +49,50 @@
   --radius-xl: 24px;
 }
 
+/* Dark Mode Theme */
+[data-theme="dark"] {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #1a1a2e;
+  --bg-tertiary: #252542;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #252542;
+
+  --text-primary: #f8f9fa;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color-hover: rgba(255, 255, 255, 0.12);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+}
+
+/* System Theme - Follows system preference */
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-tertiary: #252542;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: #252542;
+
+    --text-primary: #f8f9fa;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-color-hover: rgba(255, 255, 255, 0.12);
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+  }
+}
+
 /* Reset */
 *,
 *::before,
@@ -216,6 +260,16 @@ textarea {
   padding: 12px 0;
 }
 
+[data-theme="dark"] .navbar.scrolled {
+  background: rgba(15, 15, 26, 0.85);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] .navbar.scrolled {
+    background: rgba(15, 15, 26, 0.85);
+  }
+}
+
 .nav-container {
   max-width: var(--container-max);
   margin: 0 auto;
@@ -301,6 +355,52 @@ textarea {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* Theme Selector */
+.theme-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  margin-left: 16px;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.theme-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+}
+
+.theme-btn.active {
+  color: var(--accent-primary);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+}
+
 /* ============================================
    Hero Section
    ============================================ */
@@ -330,6 +430,20 @@ textarea {
     black 40%,
     transparent 100%
   );
+}
+
+[data-theme="dark"] .hero-bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] .hero-bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
 }
 
 .hero-glow {
